@@ -70,8 +70,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     define: {
       // 解决打包报错
       __INTLIFY_PROD_DEVTOOLS__: JSON.stringify(false),
-      //   __VUE_I18N_LEGACY_API__: false,
-      //   __VUE_I18N_FULL_INSTALL__: false
+      // __VUE_I18N_LEGACY_API__: false,
+      // __VUE_I18N_FULL_INSTALL__: false
       // 系统信息
       __APP_INFO__: JSON.stringify(__APP_INFO__)
     }

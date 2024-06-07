@@ -1,7 +1,9 @@
 {
   "workbench.iconTheme": "vscode-icons",
-  "editor.rulers": [180], // 150字符处显示垂直标尺
-  // "editor.formatOnSave": true, // 保存时自动格式化
+  // 120字符处显示垂直标尺
+  "editor.rulers": [120],
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
   // 设置编辑器的默认格式化工具
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[html]": {
@@ -34,7 +36,7 @@
   // --------------------  配置eslint  --------------------
   // autoFixedOnSave 设置已废弃，采用如下新的设置，新版(>1.41.0)配置
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.format.enable": true,
   // autoFix默认开启，只需输入字符串数组即可

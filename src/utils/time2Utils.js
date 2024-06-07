@@ -18,9 +18,9 @@ const TimeUtils2 = {
   getEndTime,
   startOfDay,
   endOfDay
-}
+};
 
-export default TimeUtils2
+export default TimeUtils2;
 
 /**
  * @description: 获取当前毫秒级时间戳（13位）
@@ -29,8 +29,8 @@ export default TimeUtils2
 export function Jh_getTimeStamp() {
   // let timestamp2 = Date.parse(new Date())
   // const timestamp = Date.now()
-  const timestamp = new Date().getTime()
-  return timestamp
+  const timestamp = new Date().getTime();
+  return timestamp;
 }
 
 /**
@@ -41,15 +41,15 @@ export function Jh_getTimeStamp() {
 
 export function Jh_timeStampToTime(time, cFormat) {
   if (arguments.length === 0) {
-    return null
+    return null;
   }
-  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
-  let date
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}';
+  let date;
   if (typeof time === 'object') {
-    console.log()
+    console.log();
   } else {
-    if (('' + time).length === 10) time = parseInt(time) * 1000
-    date = new Date(time)
+    if (('' + time).length === 10) time = parseInt(time) * 1000;
+    date = new Date(time);
   }
   const formatObj = {
     y: date.getFullYear(),
@@ -59,18 +59,18 @@ export function Jh_timeStampToTime(time, cFormat) {
     i: date.getMinutes(),
     s: date.getSeconds(),
     w: date.getDay()
-  }
+  };
   const time_str = format.replace(/{(y|m|d|h|i|s|w)+}/g, (result, key) => {
-    let value = formatObj[key]
+    let value = formatObj[key];
     if (key === 'w') {
-      return ['日', '一', '二', '三', '四', '五', '六'][value]
+      return ['日', '一', '二', '三', '四', '五', '六'][value];
     }
     if (result.length > 0 && value < 10) {
-      value = '0' + value
+      value = '0' + value;
     }
-    return value || 0
-  })
-  return time_str
+    return value || 0;
+  });
+  return time_str;
 }
 
 /**
@@ -80,132 +80,132 @@ export function Jh_timeStampToTime(time, cFormat) {
  */
 export function Jh_convertTimeStamp(time) {
   // 用正则主要是把“2019-05-20 00:00:00”转换成“2019/05/20 00:00:00”兼容ios
-  let newTime = time.replace(/-|\./g, '/')
+  let newTime = time.replace(/-|\./g, '/');
   // console.log(newTime);
   // newTime = newTime.replace(/\./g, "-");
-  newTime = newTime.replace(/年/g, '/')
-  newTime = newTime.replace(/月/g, '/')
-  newTime = newTime.replace(/日/g, '')
+  newTime = newTime.replace(/年/g, '/');
+  newTime = newTime.replace(/月/g, '/');
+  newTime = newTime.replace(/日/g, '');
   if (newTime.length === 4) {
-    newTime = newTime + '/01/01 00:00:00'
+    newTime = newTime + '/01/01 00:00:00';
   }
   if (newTime.length === 7) {
-    newTime = newTime + '/01 00:00:00'
+    newTime = newTime + '/01 00:00:00';
   }
   if (newTime.length === 10) {
-    newTime = newTime + ' 00:00:00'
+    newTime = newTime + ' 00:00:00';
   }
   if (newTime.length === 16) {
-    newTime = newTime + ':00'
+    newTime = newTime + ':00';
   }
-  return Date.parse(newTime)
+  return Date.parse(newTime);
 }
 
-/** 
- * 毫秒级时间戳（13位）转年月日，不传time默认当前时间戳  
- * @param time 毫秒级时间戳（13位），不传time默认当前时间戳   
+/**
+ * 毫秒级时间戳（13位）转年月日，不传time默认当前时间戳
+ * @param time 毫秒级时间戳（13位），不传time默认当前时间戳
  * @param format 指定format，不传format默认：'{y}/{m}/{d}'
  * @return 指定format时间，默认格式：2020/02/02
  */
 export function Jh_timeStampToYMD(time, format) {
-  time = time ? time : Jh_getTimeStamp()
+  time = time ? time : Jh_getTimeStamp();
   if (format) {
-    return Jh_timeStampToTime(time, format)
+    return Jh_timeStampToTime(time, format);
   }
-  return Jh_timeStampToTime(time, '{y}/{m}/{d}')
+  return Jh_timeStampToTime(time, '{y}/{m}/{d}');
 }
 
 // 某个时间是否是今天 time格式：2020-07-19 20:33:00
 export function Jh_isToday(time) {
-  let newTime = time.replace(/-/g, '')
-  newTime = newTime.substring(0, 8)
-  var currentTime = new Date().getTime()
-  currentTime = Jh_timeStampToTime(currentTime, '{y}{m}{d}')
-  return newTime === currentTime
+  let newTime = time.replace(/-/g, '');
+  newTime = newTime.substring(0, 8);
+  var currentTime = new Date().getTime();
+  currentTime = Jh_timeStampToTime(currentTime, '{y}{m}{d}');
+  return newTime === currentTime;
 }
 
 // 获取当前年月  time格式：2020-07
 export function Jh_getYearMonth() {
-  const timestamp = Date.parse(new Date())
-  return Jh_timeStampToTime(timestamp, '{y}-{m}')
+  const timestamp = Date.parse(new Date());
+  return Jh_timeStampToTime(timestamp, '{y}-{m}');
 }
 
 // 获取 指定年的上一年 time格式：2020 | 2020年
 export function Jh_getPrevYear(time) {
-  let tempYear = time.substring(0, 4)
-  tempYear = parseInt(tempYear)
-  tempYear = tempYear - 1
-  const text = time.substring(4, 5)
-  let prevTime = ''
+  let tempYear = time.substring(0, 4);
+  tempYear = parseInt(tempYear);
+  tempYear = tempYear - 1;
+  const text = time.substring(4, 5);
+  let prevTime = '';
   if (text === '年') {
-    prevTime = tempYear + '年'
+    prevTime = tempYear + '年';
   } else {
-    prevTime = tempYear + text
+    prevTime = tempYear + text;
   }
-  return prevTime
+  return prevTime;
 }
 
 // 获取 指定年的下一年 time格式：2020 | 2020年
 export function Jh_getNextYear(time) {
-  let tempYear = time.substring(0, 4)
-  tempYear = parseInt(tempYear)
-  tempYear = tempYear + 1
-  const text = time.substring(4, 5)
-  let nextTime = ''
+  let tempYear = time.substring(0, 4);
+  tempYear = parseInt(tempYear);
+  tempYear = tempYear + 1;
+  const text = time.substring(4, 5);
+  let nextTime = '';
   if (text === '年') {
-    nextTime = tempYear + '年'
+    nextTime = tempYear + '年';
   } else {
-    nextTime = tempYear + text
+    nextTime = tempYear + text;
   }
-  return nextTime
+  return nextTime;
 }
 
 // 获取 指定年月的上一年月 time格式：2020-07 | 2020年07月
 export function Jh_getPrevYearMonth(time) {
-  let tempYear = time.substring(0, 4)
-  let tempMonth = time.substring(5, 7)
-  tempYear = parseInt(tempYear)
-  tempMonth = parseInt(tempMonth)
-  tempMonth = tempMonth - 1
+  let tempYear = time.substring(0, 4);
+  let tempMonth = time.substring(5, 7);
+  tempYear = parseInt(tempYear);
+  tempMonth = parseInt(tempMonth);
+  tempMonth = tempMonth - 1;
   if (tempMonth === 0) {
-    tempYear = tempYear - 1
-    tempMonth = 12
+    tempYear = tempYear - 1;
+    tempMonth = 12;
   }
   if (tempMonth < 10) {
-    tempMonth = '0' + tempMonth
+    tempMonth = '0' + tempMonth;
   }
-  const text = time.substring(4, 5)
-  let prevTime = ''
+  const text = time.substring(4, 5);
+  let prevTime = '';
   if (text === '年') {
-    prevTime = tempYear + '年' + tempMonth + '月'
+    prevTime = tempYear + '年' + tempMonth + '月';
   } else {
-    prevTime = tempYear + text + tempMonth
+    prevTime = tempYear + text + tempMonth;
   }
-  return prevTime
+  return prevTime;
 }
 
 // 获取 指定年月的下一年月 time格式：2020-07 | 2020年07月
 export function Jh_getNextYearMonth(time) {
-  let tempYear = time.substring(0, 4)
-  let tempMonth = time.substring(5, 7)
-  tempYear = parseInt(tempYear)
-  tempMonth = parseInt(tempMonth)
-  tempMonth = tempMonth + 1
+  let tempYear = time.substring(0, 4);
+  let tempMonth = time.substring(5, 7);
+  tempYear = parseInt(tempYear);
+  tempMonth = parseInt(tempMonth);
+  tempMonth = tempMonth + 1;
   if (tempMonth === 13) {
-    tempYear = tempYear + 1
-    tempMonth = 1
+    tempYear = tempYear + 1;
+    tempMonth = 1;
   }
   if (tempMonth < 10) {
-    tempMonth = '0' + tempMonth
+    tempMonth = '0' + tempMonth;
   }
-  const text = time.substring(4, 5)
-  let nextTime = ''
+  const text = time.substring(4, 5);
+  let nextTime = '';
   if (text === '年') {
-    nextTime = tempYear + '年' + tempMonth + '月'
+    nextTime = tempYear + '年' + tempMonth + '月';
   } else {
-    nextTime = tempYear + text + tempMonth
+    nextTime = tempYear + text + tempMonth;
   }
-  return nextTime
+  return nextTime;
 }
 
 /**
@@ -214,103 +214,158 @@ export function Jh_getNextYearMonth(time) {
  * @returns '距离2021年2月12日还有118天0小时30分12秒'
  */
 export function getEndTime(time) {
-  var year = new Date(time).getFullYear()
-  var month = new Date(time).getMonth() + 1
-  var date = new Date(time).getDate()
-  var now = new Date()
-  var endDate = new Date(new Date(time).toLocaleDateString())
-  var leftTime = endDate.getTime() - now.getTime()
-  var leftsecond = parseInt(leftTime / 1000)
-  var day = Math.floor(leftsecond / (60 * 60 * 24))
-  var hour = Math.floor((leftsecond - day * 24 * 60 * 60) / 3600)
-  var minute = Math.floor((leftsecond - day * 24 * 60 * 60 - hour * 3600) / 60)
-  var second = Math.floor(leftsecond - day * 60 * 60 * 24 - hour * 60 * 60 - minute * 60)
-  return `距离${year}年${month}月${date}日还有${day}天${hour}小时${minute}分${second}秒`
+  var year = new Date(time).getFullYear();
+  var month = new Date(time).getMonth() + 1;
+  var date = new Date(time).getDate();
+  var now = new Date();
+  var endDate = new Date(new Date(time).toLocaleDateString());
+  var leftTime = endDate.getTime() - now.getTime();
+  var leftsecond = parseInt(leftTime / 1000);
+  var day = Math.floor(leftsecond / (60 * 60 * 24));
+  var hour = Math.floor((leftsecond - day * 24 * 60 * 60) / 3600);
+  var minute = Math.floor((leftsecond - day * 24 * 60 * 60 - hour * 3600) / 60);
+  var second = Math.floor(leftsecond - day * 60 * 60 * 24 - hour * 60 * 60 - minute * 60);
+  return `距离${year}年${month}月${date}日还有${day}天${hour}小时${minute}分${second}秒`;
 }
 
 /**
- * 获取当前日期0点(iso格式)
- * @returns {string}
+ * 获取指定 ISO 日期字符串所在日期的开始时间字符串。
+ *
+ * @param isoDateStr ISO 日期字符串，格式为 'YYYY-MM-DDTHH:mm:ss.sssZ'。
+ * @returns 返回指定 ISO 日期字符串所在日期的开始时间字符串，格式为 'YYYY-MM-DD 00:00:00'。
+ * 如果参数为空，则返回空字符串。
  */
 export function startOfDay(isoDateStr) {
-  if (!isoDateStr) return ''
-  return isoDateStr.substr(0, 10) + ' 00:00:00'
+  // 如果传入的 isoDateStr 为空，则返回空字符串
+  if (!isoDateStr) return '';
+
+  // 返回 isoDateStr 的前10个字符，并拼接上 ' 00:00:00'
+  return isoDateStr.substr(0, 10) + ' 00:00:00';
 }
 
 /**
- * 获取当前日期的午夜(iso格式)
- * @returns {string}
+ * 将 ISO 日期字符串转换为当天 23:59:59 时刻的字符串。
+ *
+ * @param isoDateStr ISO 日期字符串，格式为 'YYYY-MM-DDTHH:mm:ss.sssZ'。
+ * @returns 返回当天 23:59:59 时刻的字符串，格式为 'YYYY-MM-DD 23:59:59'。
+ * 若参数为空，则返回空字符串。
  */
 export function endOfDay(isoDateStr) {
-  if (!isoDateStr) return ''
-  return isoDateStr.substr(0, 10) + ' 23:59:59'
+  // 如果传入的 isoDateStr 为空，则返回空字符串
+  if (!isoDateStr) return '';
+  // 返回 isoDateStr 的前 10 个字符，并拼接上 ' 23:59:59'
+  return isoDateStr.substr(0, 10) + ' 23:59:59';
 }
 
 /**
- * 判断某个时间是否在开始时间和结束时间范围内
- * @param time 2020-07-19 20:33:00 | 2020/07/19 20:33:00
- * @return true | false
+ * 判断给定时间是否在起始时间和结束时间之间
+ *
+ * @param time 给定时间，格式为"yyyy-MM-dd HH:mm:ss"
+ * @param startTime 起始时间，格式为"yyyy-MM-dd HH:mm:ss"
+ * @param endTime 结束时间，格式为"yyyy-MM-dd HH:mm:ss"
+ * @returns 返回布尔值，表示给定时间是否在起始时间和结束时间之间
  */
 export function Jh_isBetweenTimes(time, startTime, endTime) {
-  time = time.replace(/-/g, '/')
-  startTime = startTime.replace(/-/g, '/')
-  endTime = endTime.replace(/-/g, '/')
-  time = new Date(time)
-  startTime = new Date(startTime)
-  endTime = new Date(endTime)
+  // 将时间字符串中的"-"替换为"/"
+  time = time.replace(/-/g, '/');
+  // 将起始时间字符串中的"-"替换为"/"
+  startTime = startTime.replace(/-/g, '/');
+  // 将结束时间字符串中的"-"替换为"/"
+  endTime = endTime.replace(/-/g, '/');
+  // 将时间字符串转换为Date对象
+  time = new Date(time);
+  // 将起始时间字符串转换为Date对象
+  startTime = new Date(startTime);
+  // 将结束时间字符串转换为Date对象
+  endTime = new Date(endTime);
+  // 判断时间是否在起始时间和结束时间之间（包括起始时间和结束时间）
   if (startTime <= time && time <= endTime) {
-    return true
+    // 返回true，表示时间在指定范围内
+    return true;
   }
-  return false
+  // 返回false，表示时间不在指定范围内
+  return false;
 }
 
 /**
- * 判断当前时间是否在某个时间段内
- * @param time 2020-07-19 20:33:00 | 2020/07/19 20:33:00
- * @return true | false
+ * 判断当前时间是否在指定时间段内
+ *
+ * @param beginTime 起始时间，格式为 "yyyy-MM-dd HH:mm:ss"
+ * @param endTime 结束时间，格式为 "yyyy-MM-dd HH:mm:ss"
+ * @returns 返回布尔值，表示当前时间是否在指定时间段内
  */
 export function Jh_isBetweenTimesByCurrent(beginTime, endTime) {
-  beginTime = beginTime.replace(/-/g, '/')
-  endTime = endTime.replace(/-/g, '/')
-  beginTime = new Date(beginTime)
-  endTime = new Date(endTime)
-  const currentTime = new Date()
+  // 将传入的开始时间字符串中的短横线替换为斜杠
+  beginTime = beginTime.replace(/-/g, '/');
+  // 将传入的结束时间字符串中的短横线替换为斜杠
+  endTime = endTime.replace(/-/g, '/');
+  // 将开始时间字符串转换为日期对象
+  beginTime = new Date(beginTime);
+  // 将结束时间字符串转换为日期对象
+  endTime = new Date(endTime);
+  // 获取当前时间
+  const currentTime = new Date();
+  // 判断当前时间是否在开始时间和结束时间之间（包括开始时间和结束时间）
   if (beginTime <= currentTime && currentTime <= endTime) {
-    return true
+    // 如果在范围内，则返回true
+    return true;
   }
-  return false
+  // 如果不在范围内，则返回false
+  return false;
 }
 
 /**
- * 判断某个时间是否在当前时间和结束时间范围内
- * @param time 2020-07-19 20:33:00 | 2020/07/19 20:33:00
- * @return true | false
+ * 判断当前时间是否在指定时间范围内（包括边界值）
+ *
+ * @param time 起始时间，格式为YYYY-MM-DD HH:mm:ss
+ * @param endTime 结束时间，格式为YYYY-MM-DD HH:mm:ss
+ * @returns 返回布尔值，表示当前时间是否在指定时间范围内
  */
 export function Jh_isBetweenTimesByCurrentAndEndTime(time, endTime) {
-  const currentTime = new Date()
-  time = time.replace(/-/g, '/')
-  endTime = endTime.replace(/-/g, '/')
-  time = new Date(time)
-  endTime = new Date(endTime)
+  // 获取当前时间
+  const currentTime = new Date();
+
+  // 将传入的 time 中的 '-' 替换为 '/'
+  time = time.replace(/-/g, '/');
+
+  // 将传入的 endTime 中的 '-' 替换为 '/'
+  endTime = endTime.replace(/-/g, '/');
+
+  // 将替换后的 time 字符串转换为 Date 对象
+  time = new Date(time);
+
+  // 将替换后的 endTime 字符串转换为 Date 对象
+  endTime = new Date(endTime);
+
+  // 判断当前时间是否在 time 和 endTime 之间（包括 time 和 endTime）
   if (currentTime <= time && time <= endTime) {
-    return true
+    // 如果在范围内，则返回 true
+    return true;
   }
-  return false
+
+  // 如果不在范围内，则返回 false
+  return false;
 }
 
 /**
- * 比较两个时间大小
- * @param time1 2019-02-02 || 2019-02-02 00:00:00
- * @param time2 2019-02-02 || 2019-02-02 00:00:00
- * @return time1>time2 为true
+ * 比较两个时间戳大小
+ *
+ * @param time1 第一个时间戳
+ * @param time2 第二个时间戳
+ * @returns 如果第一个时间戳大于第二个时间戳则返回true，否则返回false
  */
 export function Jh_compareTimes(time1, time2) {
-  const newTime1 = Jh_convertTimeStamp(time1)
-  const newTime2 = Jh_convertTimeStamp(time2)
+  // 将传入的时间戳转换为统一格式的时间
+  const newTime1 = Jh_convertTimeStamp(time1);
+  const newTime2 = Jh_convertTimeStamp(time2);
+
+  // 比较两个时间的大小
   if (newTime1 > newTime2) {
-    return true // 第一个大
+    // 如果第一个时间大于第二个时间，返回true
+    return true; // 第一个大
   } else {
-    return false // 第二个大
+    // 否则返回false
+    return false; // 第二个大
   }
 }
 

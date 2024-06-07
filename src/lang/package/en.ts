@@ -35,7 +35,7 @@ export default {
   },
   // 登录页面国际化
   login: {
-    title: 'jh-vue3-admin',
+    title: 'jiahax',
     username: 'username',
     password: 'password',
     verifyCode: 'verify code',
@@ -72,4 +72,4 @@ export default {
     info: 'Please check that the URL you entered is correct, or click the button below to return to the homepage.',
     btn: 'Back to home'
   }
-}
+};

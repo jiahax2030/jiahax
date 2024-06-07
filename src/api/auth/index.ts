@@ -1,33 +1,29 @@
-import request from '@/utils/request'
-import { AxiosPromise } from 'axios'
-import { CaptchaResult, LoginData, LoginResult } from './types'
+import request from '@/utils/request';
+import { AxiosPromise } from 'axios';
+import { CaptchaResult, LoginData, LoginResult } from '@/api/auth/types';
 
-export function login(data: LoginData): AxiosPromise<LoginResult> {
-  return request({
-    url: '/v1/api/auth/login',
+export const login = (data: LoginData): AxiosPromise<LoginResult> =>
+  request({
     method: 'post',
+    url: '/v1/api/auth/login',
     data: data
-  })
-}
+  });
 
-export function getUserInfo(accessToken: string) {
-  return request({
-    url: '/v1/api/user/info',
+export const getUserInfo = (accessToken: string) =>
+  request({
     method: 'get',
+    url: '/v1/api/user/info',
     params: { accessToken }
-  })
-}
+  });
 
-export function logout() {
-  return request({
-    url: '/v1/api/auth/logout',
-    method: 'post'
-  })
-}
+export const logout = () =>
+  request({
+    method: 'post',
+    url: '/v1/api/auth/logout'
+  });
 
-export function getCaptchaApi(): AxiosPromise<CaptchaResult> {
-  return request({
-    url: '/v1/api/auth/captcha',
-    method: 'get'
-  })
-}
+export const getCaptchaApi = (): AxiosPromise<CaptchaResult> =>
+  request({
+    method: 'get',
+    url: '/v1/api/auth/captcha'
+  });

@@ -1,40 +1,40 @@
-import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
-import { useUserStoreHook } from '@/store/modules/user'
-import i18n from '@/lang/index'
-const { t } = i18n.global
+import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import { useUserStoreHook } from '@/store/modules/user';
+import i18n from '@/lang/index';
+const { t } = i18n.global;
 
 // 创建 axios 实例
 const service = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
   headers: { 'Content-Type': 'application/json;charset=utf-8' }
-})
+});
 
 // 请求拦截器
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const userStore = useUserStoreHook()
+    const userStore = useUserStoreHook();
     if (userStore.token) {
-      config.headers.Authorization = 'Bearer ' + userStore.token
+      config.headers.Authorization = 'Bearer ' + userStore.token;
     }
-    return config
+    return config;
   },
   (error: any) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   }
-)
+);
 
 // 响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    const { code, msg } = response.data
+    const { code, msg } = response.data;
     if (code === 20000) {
-      return response.data
+      return response.data;
     }
 
     // 响应数据为二进制流处理(Excel导出)
     if (response.data instanceof ArrayBuffer) {
-      return response
+      return response;
     }
 
     // `token` 过期或者账号已在别处登录
@@ -43,9 +43,9 @@ service.interceptors.response.use(
         confirmButtonText: t('logout401.confirmButtonText'),
         type: 'warning'
       }).then(() => {
-        localStorage.clear()
-        window.location.href = '/'
-      })
+        localStorage.clear();
+        window.location.href = '/';
+      });
 
       // ElMessageBox.confirm('当前页面已失效，请重新登录', '提示', {
       //   confirmButtonText: '确定',
@@ -64,15 +64,15 @@ service.interceptors.response.use(
       // }).then(() => {})
     }
 
-    ElMessage.error(msg || t('logout401.error'))
-    return Promise.reject(new Error(msg || 'Error'))
+    ElMessage.error(msg || t('logout401.error'));
+    return Promise.reject(new Error(msg || 'Error'));
   },
   (error: any) => {
-    console.log('err' + error) // for debug
-    ElMessage.error(error.message || t('logout401.error'))
-    return Promise.reject(error)
+    console.log('err' + error); // for debug
+    ElMessage.error(error.message || t('logout401.error'));
+    return Promise.reject(error);
   }
-)
+);
 
-// 导出 axios 实例
-export default service
+// 导出axios实例
+export default service;

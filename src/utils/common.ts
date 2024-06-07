@@ -5,20 +5,20 @@
  */
 export function deepClone<T>(source: { [key: string]: any }) {
   if (!source || typeof source !== 'object') {
-    return source
+    return source;
   }
 
-  const targetObj = (Array.isArray(source) ? [] : {}) as { [key: string]: any }
+  const targetObj = (Array.isArray(source) ? [] : {}) as { [key: string]: any };
 
   Object.keys(source).forEach((key) => {
     if (source[key] && typeof source[key] === 'object') {
-      targetObj[key] = deepClone(source[key])
+      targetObj[key] = deepClone(source[key]);
     } else {
-      targetObj[key] = source[key]
+      targetObj[key] = source[key];
     }
-  })
+  });
 
-  return targetObj
+  return targetObj;
 }
 
 /**
@@ -28,7 +28,5 @@ export function deepClone<T>(source: { [key: string]: any }) {
  * @return {*}
  */
 export const getImgPath = (name: string): any => {
-  return new URL(`/src/assets/images/static/${name}`, import.meta.url).href
-  // TODO: 下面这样写加载失败，也不可以用@/assets/xxx
-  // return new URL('/src/assets/images/static/' + name, import.meta.url).href
-}
+  return new URL(`/src/assets/images/static/${name}`, import.meta.url).href;
+};

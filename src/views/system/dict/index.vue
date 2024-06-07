@@ -9,7 +9,13 @@
           <!-- Search start -->
           <el-form :inline="true" :model="queryParams" class="bs-form-search">
             <el-form-item style="margin-right: 25px" class="search-input">
-              <el-input v-model="queryParams.keyword" maxlength="20" placeholder="字典名称 / 类型" clearable @keyup.enter.native="onSearch" />
+              <el-input
+                v-model="queryParams.keyword"
+                maxlength="20"
+                placeholder="字典名称 / 类型"
+                clearable
+                @keyup.enter.native="onSearch"
+              />
             </el-form-item>
             <el-form-item>
               <el-button class="bs-form-btn" style="margin-left: 0px" type="primary" @click="onSearch">查询</el-button>
@@ -19,7 +25,9 @@
           <!-- Table start -->
           <div class="bs-page-table" style="padding: 0px">
             <div class="bs-table-btns">
-              <el-button v-hasPerm="['dict-type-add']" type="primary" icon="i-ep-plus" @click="onClickAdd"> 新增 </el-button>
+              <el-button v-hasPerm="['dict-type-add']" type="primary" icon="i-ep-plus" @click="onClickAdd">
+                新增
+              </el-button>
             </div>
             <el-table
               ref="tableRef"
@@ -41,12 +49,32 @@
               <el-table-column prop="type" label="字典类型" width />
               <el-table-column fixed="right" label="操作" width="120">
                 <template #default="scope">
-                  <el-button v-hasPerm="['dict-type-edit']" size="small" icon="i-ep-edit" :disabled="!isEditable(scope.row)" @click="onClickEdit(scope.row)" />
-                  <el-button v-hasPerm="['dict-type-delete']" size="small" icon="i-ep-delete" type="danger" :disabled="!isEditable(scope.row)" @click="onClickDelete(scope.row)" />
+                  <el-button
+                    v-hasPerm="['dict-type-edit']"
+                    size="small"
+                    icon="i-ep-edit"
+                    :disabled="!isEditable(scope.row)"
+                    @click="onClickEdit(scope.row)"
+                  />
+                  <el-button
+                    v-hasPerm="['dict-type-delete']"
+                    size="small"
+                    icon="i-ep-delete"
+                    type="danger"
+                    :disabled="!isEditable(scope.row)"
+                    @click="onClickDelete(scope.row)"
+                  />
                 </template>
               </el-table-column>
             </el-table>
-            <Pagination v-show="tableTotal > 0" :layout="layout" :total="tableTotal" v-model:page="queryParams.page" v-model:limit="queryParams.limit" @pagination="requestList" />
+            <Pagination
+              v-show="tableTotal > 0"
+              :layout="layout"
+              :total="tableTotal"
+              v-model:page="queryParams.page"
+              v-model:limit="queryParams.limit"
+              @pagination="requestList"
+            />
           </div>
           <!-- Table end -->
         </el-card>
@@ -63,16 +91,21 @@
     </el-row>
 
     <!-- add/edit dict type dialog -->
-    <AddTypeDialog :dialog-type="dialogType" v-model:is-show="isShowDialog" :dialog-data="dialogFormData" @success="requestList" />
+    <AddTypeDialog
+      :dialog-type="dialogType"
+      v-model:is-show="isShowDialog"
+      :dialog-data="dialogFormData"
+      @success="requestList"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { getDictTypeList, deleteDictType, DictTypeType } from '@/api/system/dict'
-import DictDetails from './dictDetails.vue'
-import AddTypeDialog from './addTypeDialog.vue'
+import { getDictTypeList, deleteDictType, DictTypeType } from '@/api/system/dict';
+import DictDetails from './dictDetails.vue';
+import AddTypeDialog from './addTypeDialog.vue';
 
-const tableRef = ref()
+const tableRef = ref();
 const state = reactive({
   tableTotal: 0,
   tableLoading: false,
@@ -84,78 +117,78 @@ const state = reactive({
   },
   selectedRows: [] as DictTypeType[], // 勾选一行或多行数据
   selectedData: {} // 选中的字典
-})
-const { tableTotal, tableLoading, tableData, queryParams, selectedRows, selectedData } = toRefs(state)
-const layout = 'total, sizes, prev, pager, next'
+});
+const { tableTotal, tableLoading, tableData, queryParams, selectedRows, selectedData } = toRefs(state);
+const layout = 'total, sizes, prev, pager, next';
 
 const dialogState = reactive({
   isShowDialog: false,
   dialogType: '',
   dialogFormData: {}
-})
-const { isShowDialog, dialogType, dialogFormData } = toRefs(dialogState)
+});
+const { isShowDialog, dialogType, dialogFormData } = toRefs(dialogState);
 
 onMounted(() => {
-  requestList()
-})
+  requestList();
+});
 
 const requestList = () => {
-  var params = JSON.parse(JSON.stringify(state.queryParams))
-  console.log(JSON.stringify(params))
+  var params = JSON.parse(JSON.stringify(state.queryParams));
+  console.log(JSON.stringify(params));
 
-  state.tableLoading = true
+  state.tableLoading = true;
   getDictTypeList(params)
     .then((res) => {
-      state.tableLoading = false
+      state.tableLoading = false;
       if (res.code === 20000) {
-        state.tableData = res.data
-        state.tableTotal = res.total
+        state.tableData = res.data;
+        state.tableTotal = res.total;
       } else {
-        ElMessage.warning(res.msg)
+        ElMessage.warning(res.msg);
       }
     })
     .catch((err) => {
-      state.tableLoading = false
-      console.log(JSON.stringify(err))
-    })
-}
+      state.tableLoading = false;
+      console.log(JSON.stringify(err));
+    });
+};
 
 const onSearch = () => {
-  state.queryParams.page = 1
-  requestList()
-}
+  state.queryParams.page = 1;
+  requestList();
+};
 
 const isEditable = (row: DictTypeType) => {
-  return row.builtin === '0'
-}
+  return row.builtin === '0';
+};
 const onCurrentChange = (currentRow: DictTypeType, oldCurrentRow: DictTypeType) => {
-  state.selectedData = JSON.parse(JSON.stringify(currentRow))
-}
+  state.selectedData = JSON.parse(JSON.stringify(currentRow));
+};
 
 // 操作按钮
 const onClickAdd = () => {
-  dialogState.dialogType = 'add'
-  dialogState.dialogFormData = {} // 新增使用的内部初始值
-  dialogState.isShowDialog = true
-}
+  dialogState.dialogType = 'add';
+  dialogState.dialogFormData = {}; // 新增使用的内部初始值
+  dialogState.isShowDialog = true;
+};
 const onClickEdit = (row: DictTypeType) => {
-  dialogState.dialogType = 'edit'
-  dialogState.dialogFormData = JSON.parse(JSON.stringify(row))
-  dialogState.isShowDialog = true
-}
+  dialogState.dialogType = 'edit';
+  dialogState.dialogFormData = JSON.parse(JSON.stringify(row));
+  dialogState.isShowDialog = true;
+};
 
 const onClickLook = (row: DictTypeType) => {
-  dialogState.dialogType = 'look'
-  dialogState.dialogFormData = JSON.parse(JSON.stringify(row))
-  dialogState.isShowDialog = true
-}
+  dialogState.dialogType = 'look';
+  dialogState.dialogFormData = JSON.parse(JSON.stringify(row));
+  dialogState.isShowDialog = true;
+};
 
 const onClickDelete = (row: DictTypeType) => {
-  var name = ''
+  var name = '';
   if (row && row.id) {
-    name = row.name
+    name = row.name;
   } else {
-    name = state.selectedRows.map((item) => item.name).join(',')
+    name = state.selectedRows.map((item) => item.name).join(',');
   }
 
   ElMessageBox.confirm(`确定要删除字典类型 ${name} ，此操作将永久删除, 是否继续?`, '提示', {
@@ -163,27 +196,27 @@ const onClickDelete = (row: DictTypeType) => {
     cancelButtonText: '取消',
     type: 'warning'
   }).then(() => {
-    var params = { ids: [] as string[] }
+    var params = { ids: [] as string[] };
     if (row && row.id) {
-      params.ids = [row.id]
+      params.ids = [row.id];
     } else {
-      const tempArr = state.selectedRows.map((item) => item.id)
-      params.ids = tempArr
+      const tempArr = state.selectedRows.map((item) => item.id);
+      params.ids = tempArr;
     }
-    deleteRequest(params)
-  })
-}
+    deleteRequest(params);
+  });
+};
 const deleteRequest = (params: object) => {
-  console.log(JSON.stringify(params))
+  console.log(JSON.stringify(params));
   deleteDictType(params).then((res) => {
     if (res.code === 20000) {
-      ElMessage.success('删除成功!')
-      requestList()
+      ElMessage.success('删除成功!');
+      requestList();
     } else {
-      ElMessage.warning(res.msg)
+      ElMessage.warning(res.msg);
     }
-  })
-}
+  });
+};
 </script>
 
 <style lang="scss" scoped>

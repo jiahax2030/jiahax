@@ -1,6 +1,14 @@
 <template>
   <div>
-    <el-dialog :title="dialogTitle" v-model="isShowDialog" top="8vh" width="60%" :close-on-click-modal="false" @opened="onOpenedDialog" @closed="onClosedDialog">
+    <el-dialog
+      :title="dialogTitle"
+      v-model="isShowDialog"
+      top="8vh"
+      width="60%"
+      :close-on-click-modal="false"
+      @opened="onOpenedDialog"
+      @closed="onClosedDialog"
+    >
       <div class="bs-dialog input-width">
         <div style="margin: -10px 0px 20px">选中用户：{{ userData.name }}</div>
         <el-row :gutter="10" class="dialog-body">
@@ -16,7 +24,13 @@
                   <el-button class="bs-form-btn" type="primary" @click="requestList('K')">查询</el-button>
                 </el-form-item>
               </div>
-              <el-table v-loading="isLoadingK" :data="tableDataK" :max-height="tableHeight" border @selection-change="onSelectionChangeK">
+              <el-table
+                v-loading="isLoadingK"
+                :data="tableDataK"
+                :max-height="tableHeight"
+                border
+                @selection-change="onSelectionChangeK"
+              >
                 <el-table-column type="selection" />
                 <el-table-column prop="name" label="角色名称" />
                 <el-table-column prop="code" label="角色编号" />
@@ -46,7 +60,13 @@
                   <el-button class="bs-form-btn" type="primary" @click="requestList('Y')">查询</el-button>
                 </el-form-item>
               </div>
-              <el-table v-loading="isLoadingY" :data="tableDataY" :max-height="tableHeight" border @selection-change="onSelectionChangeY">
+              <el-table
+                v-loading="isLoadingY"
+                :data="tableDataY"
+                :max-height="tableHeight"
+                border
+                @selection-change="onSelectionChangeY"
+              >
                 <el-table-column type="selection" />
                 <el-table-column prop="name" label="角色名称" />
                 <el-table-column prop="code" label="角色编号" />
@@ -64,19 +84,19 @@
 </template>
 
 <script setup lang="ts">
-import { getRoleListByUserId, RoleType } from '@/api/system/role'
-import { assignRole, UserType } from '@/api/system/user'
+import { getRoleListByUserId, RoleType } from '@/api/system/role';
+import { assignRole, UserType } from '@/api/system/user';
 
-const emit = defineEmits(['update:isShow', 'closed', 'success'])
+const emit = defineEmits(['update:isShow', 'closed', 'success']);
 
 const props = defineProps({
   // 是否显示
   isShow: { type: Boolean, default: false },
   // 传参
   dialogData: { type: Object, default: () => ({}) }
-})
+});
 
-const dialogFormRef = ref()
+const dialogFormRef = ref();
 const state = reactive({
   // 弹框相关
   dialogTitle: '分配角色',
@@ -92,121 +112,121 @@ const state = reactive({
   nameY: '',
   tableDataY: [] as RoleType[],
   selectedRowsY: [] as RoleType[]
-})
-const { dialogTitle, isShowDialog, dialogSubmitBtnLoading } = toRefs(state)
-const { userData, tableHeight, isLoadingK, nameK, tableDataK, isLoadingY, nameY, tableDataY } = toRefs(state)
+});
+const { dialogTitle, isShowDialog, dialogSubmitBtnLoading } = toRefs(state);
+const { userData, tableHeight, isLoadingK, nameK, tableDataK, isLoadingY, nameY, tableDataY } = toRefs(state);
 
 watch(
   () => props.isShow,
   (val) => {
-    state.isShowDialog = val // isShow改变是同步子组件isShowDialog的值
+    state.isShowDialog = val; // isShow改变是同步子组件isShowDialog的值
   }
-)
+);
 watch(
   () => state.isShowDialog,
   (val) => {
-    emit('update:isShow', val) // isShowDialog改变时同步父组件isShow的值
+    emit('update:isShow', val); // isShowDialog改变时同步父组件isShow的值
   }
-)
+);
 watch(
   () => props.dialogData,
   (val) => {
-    state.userData = JSON.parse(JSON.stringify(val))
+    state.userData = JSON.parse(JSON.stringify(val));
   }
-)
+);
 
-onMounted(() => {})
+onMounted(() => {});
 
 // 弹框相关
 const onOpenedDialog = () => {
-  requestList('K')
-  requestList('Y')
-}
+  requestList('K');
+  requestList('Y');
+};
 const onClosedDialog = () => {
-  emit('closed', {})
-}
+  emit('closed', {});
+};
 
 const requestList = (type: string) => {
-  var params = { userId: state.userData.id, name: '', status: '' }
-  params.name = type === 'K' ? state.nameK : state.nameY
-  params.status = type === 'K' ? '0' : '1'
-  console.log(JSON.stringify(params))
-  handleLoading(true, type)
+  var params = { userId: state.userData.id, name: '', status: '' };
+  params.name = type === 'K' ? state.nameK : state.nameY;
+  params.status = type === 'K' ? '0' : '1';
+  console.log(JSON.stringify(params));
+  handleLoading(true, type);
   getRoleListByUserId(params)
     .then((res) => {
-      handleLoading(false, type)
+      handleLoading(false, type);
       if (res.code === 20000) {
         if (type === 'K') {
-          state.tableDataK = res.data
+          state.tableDataK = res.data;
         } else {
-          state.tableDataY = res.data
+          state.tableDataY = res.data;
         }
       } else {
-        ElMessage.warning(res.msg)
+        ElMessage.warning(res.msg);
       }
     })
     .catch((err) => {
-      handleLoading(false, type)
-      console.log(JSON.stringify(err))
-    })
-}
+      handleLoading(false, type);
+      console.log(JSON.stringify(err));
+    });
+};
 
 const handleLoading = (isShow: boolean, type: string) => {
   if (type === 'K') {
-    state.isLoadingK = isShow
+    state.isLoadingK = isShow;
   } else {
-    state.isLoadingY = isShow
+    state.isLoadingY = isShow;
   }
-}
+};
 const onSelectionChangeK = (row: RoleType[]) => {
-  state.selectedRowsK = row
-}
+  state.selectedRowsK = row;
+};
 const onSelectionChangeY = (row: RoleType[]) => {
-  state.selectedRowsY = row
-}
+  state.selectedRowsY = row;
+};
 const onClickArrowLeft = () => {
   if (state.selectedRowsY.length === 0) {
-    ElMessage.warning('请选择需要移除的已分配角色！')
-    return
+    ElMessage.warning('请选择需要移除的已分配角色！');
+    return;
   }
-  state.tableDataK = state.selectedRowsY.concat(state.tableDataK)
-  state.tableDataY = state.tableDataY.filter((item1) => !state.selectedRowsY.some((item2) => item1.id === item2.id))
-}
+  state.tableDataK = state.selectedRowsY.concat(state.tableDataK);
+  state.tableDataY = state.tableDataY.filter((item1) => !state.selectedRowsY.some((item2) => item1.id === item2.id));
+};
 
 const onClickArrowRight = () => {
   if (state.selectedRowsK.length === 0) {
-    ElMessage.warning('请选择需要添加的可分配角色！')
-    return
+    ElMessage.warning('请选择需要添加的可分配角色！');
+    return;
   }
-  state.tableDataY = state.selectedRowsK.concat(state.tableDataY)
-  state.tableDataK = state.tableDataK.filter((item1) => !state.selectedRowsK.some((item2) => item1.id === item2.id))
-}
+  state.tableDataY = state.selectedRowsK.concat(state.tableDataY);
+  state.tableDataK = state.tableDataK.filter((item1) => !state.selectedRowsK.some((item2) => item1.id === item2.id));
+};
 
 const onDialogSubmit = () => {
-  submitRequest()
-}
+  submitRequest();
+};
 
 const submitRequest = () => {
-  const roleIds = state.tableDataY.map((item) => item.id)
-  const params = { id: state.userData.id, roleIds: roleIds }
-  console.log(JSON.stringify(params))
-  state.dialogSubmitBtnLoading = true
+  const roleIds = state.tableDataY.map((item) => item.id);
+  const params = { id: state.userData.id, roleIds: roleIds };
+  console.log(JSON.stringify(params));
+  state.dialogSubmitBtnLoading = true;
   assignRole(params)
     .then((res) => {
-      state.dialogSubmitBtnLoading = false
+      state.dialogSubmitBtnLoading = false;
       if (res.code === 20000) {
-        ElMessage.success('分配角色成功!')
-        state.isShowDialog = false
-        emit('success', {})
+        ElMessage.success('分配角色成功!');
+        state.isShowDialog = false;
+        emit('success', {});
       } else {
-        ElMessage.warning(res.msg)
+        ElMessage.warning(res.msg);
       }
     })
     .catch((err) => {
-      state.dialogSubmitBtnLoading = false
-      console.log(JSON.stringify(err))
-    })
-}
+      state.dialogSubmitBtnLoading = false;
+      console.log(JSON.stringify(err));
+    });
+};
 </script>
 
 <style lang="scss" scoped>

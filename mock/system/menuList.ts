@@ -1,6 +1,6 @@
 // Just a mock data
 
-import { apiDoc } from '@/utils/const'
+import { apiDoc } from '@/utils/const';
 
 // 实际路由
 const asyncRoutes = [
@@ -9,7 +9,7 @@ const asyncRoutes = [
     component: 'Layout',
     children: [
       {
-        path: 'https://github.com/iotjin/jh-vue3-admin',
+        path: 'https://github.com/iotjin/jiahax',
         meta: { title: '动态External Link', icon: 'link' }
       }
     ]
@@ -36,13 +36,13 @@ const asyncRoutes = [
   },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
-]
+];
 
 // 获取的某用户的所有菜单数据，需要转成实际使用的路由
 export const userMenuTreeListData = [
   // {
   //   id: '1',
-  //   code: 'https://github.com/iotjin/jh-vue3-admin',
+  //   code: 'https://github.com/iotjin/jiahax',
   //   title: 'External Link',
   //   parentId: '',
   //   parentTitle: '',
@@ -156,11 +156,18 @@ export const userMenuTreeListData = [
         hidden: false,
         level: 2,
         children: [],
-        buttons: ['dict-type-add', 'dict-type-edit', 'dict-type-delete', 'dict-item-add', 'dict-item-edit', 'dict-item-delete']
+        buttons: [
+          'dict-type-add',
+          'dict-type-edit',
+          'dict-type-delete',
+          'dict-item-add',
+          'dict-item-edit',
+          'dict-item-delete'
+        ]
       }
     ]
   }
-]
+];
 
 const testMenuTreeListData = [
   {
@@ -437,7 +444,7 @@ const testMenuTreeListData = [
     level: 1,
     children: []
   }
-]
+];
 
 const sysMenuTreeListData = [
   {
@@ -823,7 +830,7 @@ const sysMenuTreeListData = [
       }
     ]
   }
-]
+];
 
 // 菜单管理所有菜单(包含按钮)
-export const allMenuTreeListData = sysMenuTreeListData.concat(testMenuTreeListData)
+export const allMenuTreeListData = sysMenuTreeListData.concat(testMenuTreeListData);

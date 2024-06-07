@@ -1,6 +1,13 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginFormRef" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form
+      ref="loginFormRef"
+      :model="loginForm"
+      :rules="loginRules"
+      class="login-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
         <h3 class="title">{{ $t('login.title') }}</h3>
         <LangSelect class="text" />
@@ -9,7 +16,15 @@
         <span class="svg-container">
           <SvgIcon icon-class="user" />
         </span>
-        <el-input ref="username" v-model="loginForm.username" :placeholder="$t('login.username')" name="username" type="text" tabindex="1" auto-complete="on" />
+        <el-input
+          ref="username"
+          v-model="loginForm.username"
+          :placeholder="$t('login.username')"
+          name="username"
+          type="text"
+          tabindex="1"
+          auto-complete="on"
+        />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -30,7 +45,14 @@
           <SvgIcon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-button :loading="isLoading" type="primary" style="width: 100%; margin-bottom: 30px" @click.native.prevent="handleLogin">{{ $t('login.login') }}</el-button>
+      <el-button
+        :loading="isLoading"
+        type="primary"
+        style="width: 100%; margin-bottom: 30px"
+        @click.native.prevent="handleLogin"
+      >
+        {{ $t('login.login') }}
+      </el-button>
       <div class="tips">
         <span> {{ $t('login.textTip1') }}</span>
       </div>
@@ -45,97 +67,99 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router'
-import { LocationQuery, LocationQueryValue, useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import { useUserStore } from '@/store/modules/user'
+import router from '@/router';
+import { LocationQuery, LocationQueryValue, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useUserStore } from '@/store/modules/user';
 
-import LangSelect from '@/components/LangSelect/index.vue'
-import SvgIcon from '@/components/SvgIcon/index.vue'
+import LangSelect from '@/components/LangSelect/index.vue';
+import SvgIcon from '@/components/SvgIcon/index.vue';
 
-import { LoginData } from '@/api/auth/types'
-import { validUsername } from '@/utils/validate'
+import { LoginData } from '@/api/auth/types';
+import { validUsername } from '@/utils/validate';
 
-const { t, locale } = useI18n()
+const { t, locale } = useI18n();
 
-const route = useRoute()
-const userStore = useUserStore()
-const isLoading = ref(false)
-const loginFormRef = ref()
-const passwordRef = ref()
-const passwordType = ref('password')
+const route = useRoute();
+const userStore = useUserStore();
+const isLoading = ref(false);
+const loginFormRef = ref();
+const passwordRef = ref();
+const passwordType = ref('password');
 const loginForm = ref<LoginData>({
   username: 'admin',
   password: '123456'
-})
+});
 
 const validateUsername = (rule: any, value: any, callback: any) => {
   if (!validUsername(value)) {
-    callback(new Error(t('login.usernameMsg')))
+    callback(new Error(t('login.usernameMsg')));
   } else {
-    callback()
+    callback();
   }
-}
+};
+
 const validatePassword = (rule: any, value: any, callback: any) => {
   if (value.length < 6) {
-    callback(new Error(t('login.passwordMsg')))
+    callback(new Error(t('login.passwordMsg')));
   } else {
-    callback()
+    callback();
   }
-}
+};
+
 const loginRules = ref({
   username: [{ required: true, trigger: ['blur', 'change'], validator: validateUsername }],
   password: [{ required: true, trigger: ['blur', 'change'], validator: validatePassword }]
-})
+});
 
 watch(
   () => locale.value,
   (value) => {
     nextTick(() => {
-      loginFormRef.value.resetFields()
-    })
+      loginFormRef.value.resetFields();
+    });
   }
-)
+);
 
 function showPwd() {
   if (passwordType.value === 'password') {
-    passwordType.value = ''
+    passwordType.value = '';
   } else {
-    passwordType.value = 'password'
+    passwordType.value = 'password';
   }
   nextTick(() => {
-    passwordRef.value.focus()
-  })
+    passwordRef.value.focus();
+  });
 }
 
 function handleLogin() {
   loginFormRef.value.validate((valid: boolean) => {
     if (valid) {
-      isLoading.value = true
+      isLoading.value = true;
       userStore
         .login(loginForm.value)
         .then(() => {
-          const redirect = (route.query.redirect as LocationQueryValue) ?? '/'
+          const redirect = (route.query.redirect as LocationQueryValue) ?? '/';
           router.push({ path: redirect, query: getOtherQuery(route.query) }).then(() => {
-            isLoading.value = false
-          })
+            isLoading.value = false;
+          });
         })
         .catch(() => {
-          isLoading.value = false
+          isLoading.value = false;
         })
-        .finally(() => {})
+        .finally(() => {});
     }
-  })
+  });
 }
 
 const getOtherQuery = (query: LocationQuery) => {
   return Object.keys(query).reduce((acc: any, cur: string) => {
     if (cur !== 'redirect') {
-      acc[cur] = query[cur]
+      acc[cur] = query[cur];
     }
-    return acc
-  }, {})
-}
+    return acc;
+  }, {});
+};
 </script>
 
 <style lang="scss">

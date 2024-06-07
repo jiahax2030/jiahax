@@ -11,9 +11,9 @@
 </template>
 
 <script setup lang="ts">
-import UserInfo from '../UserInfo.vue'
+import UserInfo from '@/layout/components/UserInfo.vue';
 
-const headerTitle = ref('Vue3在线管理系统')
+const headerTitle = ref('Jiahax Management System');
 </script>
 
 <style lang="scss" scoped>
@@ -27,7 +27,7 @@ const headerTitle = ref('Vue3在线管理系统')
   font-size: 15px;
 }
 .bgImage {
-  background: url('../../../assets/images/frame/header.png') no-repeat;
+  background: url('@/assets/images/frame/header.png') no-repeat;
   background-size: 100% 100%;
 }
 .header {

@@ -3,19 +3,19 @@
     <img src="https://img.shields.io/badge/Vite-4.4.8-green.svg"/>
     <img src="https://img.shields.io/badge/Element Plus-2.3.9-blue.svg"/>
     <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
-    <a href="https://github.com/iotjin/jh-vue3-admin" target="_blank">
+    <a href="https://github.com/iotjin/jiahax" target="_blank">
         <img src="https://img.shields.io/badge/Author-iotjin-orange.svg"/>
     </a>
 </p>
 <p align="center">
- <a target="_blank" href="https://github.com/iotjin/jh-vue3-admin">jh-vue3-admin项目地址</a> |  <a target="_blank" href="https://iotjin.github.io/jh-vue3-admin">在线预览</a> 
+ <a target="_blank" href="https://github.com/iotjin/jiahax">jiahax项目地址</a> |  <a target="_blank" href="https://iotjin.github.io/jiahax">在线预览</a> 
 </p>
 
 <br>
 
 ## 项目介绍
 
-[jh-vue3-admin](https://github.com/iotjin/jh-vue3-admin) 是基于 Vue3 + Vite4 + TypeScript5 + Element-Plus + Pinia 等最新主流技术栈构建的后台管理系统前端模板。
+[jiahax](https://github.com/iotjin/jiahax) 是基于 Vue3 + Vite4 + TypeScript5 + Element-Plus + Pinia 等最新主流技术栈构建的后台管理系统前端模板。
 
 特性：
 
@@ -30,7 +30,7 @@
 
 ## 在线预览
 
-  https://iotjin.github.io/jh-vue3-admin
+  https://iotjin.github.io/jiahax
 
 <br>
 
@@ -89,7 +89,7 @@
 
 ```bash
 # 克隆代码
-git clone https://github.com/iotjin/jh-vue3-admin
+git clone https://github.com/iotjin/jiahax
 
 # 安装 pnpm
 npm install pnpm -g
@@ -103,7 +103,7 @@ pnpm run dev
 
 浏览器访问 [http://localhost:9528](http://localhost:9528)
 
-在线预览 [https://iotjin.github.io/jh-vue3-admin](https://iotjin.github.io/jh-vue3-admin)
+在线预览 [https://iotjin.github.io/jiahax](https://iotjin.github.io/jiahax)
 
 
 ## 项目部署

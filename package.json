@@ -1,8 +1,8 @@
 {
-  "name": "jh-vue3-admin",
+  "name": "jiahax",
   "private": true,
   "version": "1.0.0",
-  "repository": "https://github.com/iotjin/jh-vue3-admin",
+  "repository": "https://github.com/jiahax2030/jiahax.git",
   "author": "iotjin",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
@@ -38,6 +38,7 @@
     "@iconify-json/ep": "^1.1.10",
     "@iconify-json/line-md": "^1.1.25",
     "@iconify/vue": "^4.1.1",
+    "@types/axios": "^0.14.0",
     "@types/codemirror": "^5.60.7",
     "@types/js-cookie": "^3.0.3",
     "@types/lodash-es": "^4.17.7",
